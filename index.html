@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reloj clase</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="status-no-lectivo">
+    <div id="container" class="status-no-lectivo" onclick="toggleMode()">
+        <div id="title-section">
+            <h1 id="title">La hora actual es:</h1>
+        </div>
+
+        <div id="exit-message">Horario no lectivo</div>
+
+        <div id="time-display">
+            <div id="current-time">19:22:52</div>
+        </div>
+
+        <div id="date-info">
+            <div id="current-date">Miércoles, Septiembre 24, 2025, Semana 39</div>
+        </div>
+
+        <div id="world-times">
+            <div class="city-time">
+                <div class="city-name">Pekín</div>
+                <div class="city-hour">01:22</div>
+            </div>
+            <div class="city-time">
+                <div class="city-name">Tokio</div>
+                <div class="city-hour">02:22</div>
+            </div>
+            <div class="city-time">
+                <div class="city-name">Nueva York</div>
+                <div class="city-hour">13:22</div>
+            </div>
+            <div class="city-time">
+                <div class="city-name">Los Ángeles</div>
+                <div class="city-hour">10:22</div>
+            </div>
+            <div class="city-time">
+                <div class="city-name">Londres</div>
+                <div class="city-hour">18:22</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
