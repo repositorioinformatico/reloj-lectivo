@@ -1,0 +1,239 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial Black', 'Helvetica Bold', Arial, sans-serif;
+    background: #424242;
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#container {
+    text-align: center;
+    padding: 40px;
+    max-width: 1000px;
+    width: 100%;
+    transition: all 0.5s ease;
+    border: 8px solid transparent;
+    border-radius: 24px;
+    background: transparent;
+}
+
+
+#title-section {
+    margin-bottom: 30px;
+    transition: all 0.5s ease;
+}
+
+#title {
+    font-size: 32px;
+    color: #f5f5f5;
+    font-weight: 300;
+    transition: all 0.5s ease;
+}
+
+#title strong {
+    font-weight: 700;
+}
+
+#time-display {
+    margin-bottom: 30px;
+}
+
+#exit-message {
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    padding: 12px 24px;
+    border-radius: 18px;
+    display: inline-block;
+}
+
+body.status-lectivo {
+    background: #2e7d32;
+}
+
+body.status-fin {
+    background: #c62828;
+}
+
+body.status-no-lectivo {
+    background: #424242;
+}
+
+.status-lectivo {
+    border-color: #2e7d32;
+}
+
+.status-lectivo #exit-message {
+    background-color: #2e7d32;
+    color: #ffffff;
+}
+
+.status-fin {
+    border-color: #c62828;
+}
+
+.status-fin #exit-message {
+    background-color: #c62828;
+    color: #ffffff;
+}
+
+.status-no-lectivo {
+    border-color: #616161;
+}
+
+.status-no-lectivo #exit-message {
+    background-color: #616161;
+    color: #ffffff;
+}
+
+#current-time {
+    font-size: 120px;
+    font-weight: 900;
+    color: #ffffff;
+    line-height: 1;
+    letter-spacing: -2px;
+    transition: all 0.5s ease;
+}
+
+#date-info {
+    margin-bottom: 40px;
+    transition: all 0.5s ease;
+    opacity: 1;
+}
+
+#current-date {
+    font-size: 24px;
+    color: #e0e0e0;
+    margin-bottom: 10px;
+}
+
+#sun-info {
+    font-size: 14px;
+    color: #d7d7d7;
+    line-height: 1.4;
+}
+
+#world-times {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-top: 40px;
+    transition: all 0.5s ease;
+    opacity: 1;
+}
+
+.city-time {
+    background: rgba(255, 255, 255, 0.3);
+    padding: 20px;
+    border-radius: 8px;
+    min-width: 120px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.city-name {
+    font-size: 14px;
+    color: #e0e0e0;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.city-hour {
+    font-size: 20px;
+    color: #ffffff;
+    font-weight: 300;
+}
+
+/* Modo minimalista */
+.minimal-mode {
+    /* Mantiene el fondo definido por el estado */
+}
+
+.minimal-mode #container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 0;
+    background: transparent;
+}
+
+
+.minimal-mode #title-section {
+    display: none;
+}
+
+.minimal-mode #current-time {
+    font-size: 20vw;
+    color: #ffffff;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 0.8;
+}
+
+.minimal-mode #date-info {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    margin: 0;
+}
+
+.minimal-mode #world-times {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    #current-time {
+        font-size: 80px;
+    }
+
+    .minimal-mode #current-time {
+        font-size: 18vw;
+        letter-spacing: -0.02em;
+    }
+
+    #title {
+        font-size: 24px;
+    }
+
+    #world-times {
+        gap: 15px;
+    }
+
+    .city-time {
+        min-width: 100px;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    #current-time {
+        font-size: 60px;
+    }
+
+    .minimal-mode #current-time {
+        font-size: 16vw;
+        letter-spacing: -0.02em;
+    }
+
+    #world-times {
+        flex-direction: column;
+        align-items: center;
+    }
+}
