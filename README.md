@@ -1,6 +1,6 @@
 # Reloj Lectivo
 
-Reloj web para centros educativos que muestra la hora oficial de Madrid y pinta toda la pantalla en verde, rojo o gris según si es horario lectivo, salida del centro o tiempo no lectivo.
+Reloj web para centros educativos que muestra la hora oficial de Madrid y pinta toda la pantalla en verde, rojo o gris según si es horario lectivo, salida del centro o tiempo no lectivo. Puedes verlo en funcionamiento en [repositorioinformatico.github.io/reloj-lectivo](https://repositorioinformatico.github.io/reloj-lectivo).
 
 ## Características
 - Mensajes y colores automáticos en función del día de la semana y la franja horaria.
