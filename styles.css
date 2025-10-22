@@ -58,6 +58,14 @@ body {
     display: inline-block;
 }
 
+body.status-hora {
+    background: #1565c0;
+}
+
+body.status-recreo {
+    background: #f57c00;
+}
+
 body.status-lectivo {
     background: #2e7d32;
 }
@@ -68,6 +76,24 @@ body.status-fin {
 
 body.status-no-lectivo {
     background: #424242;
+}
+
+.status-hora {
+    border-color: #1565c0;
+}
+
+.status-hora #exit-message {
+    background-color: #1565c0;
+    color: #ffffff;
+}
+
+.status-recreo {
+    border-color: #f57c00;
+}
+
+.status-recreo #exit-message {
+    background-color: #f57c00;
+    color: #ffffff;
 }
 
 .status-lectivo {

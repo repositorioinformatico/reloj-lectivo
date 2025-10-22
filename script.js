@@ -59,13 +59,29 @@ function updateExitStatus(madridTime) {
     const secondsOfDay =
         madridTime.getHours() * 3600 + madridTime.getMinutes() * 60 + madridTime.getSeconds();
 
+    // Definición de horarios de clases
+    const hora1Start = 7 * 3600 + 50 * 60;         // 07:50:00
+    const hora1End = 8 * 3600 + 45 * 60;           // 08:45:00
+    const hora2Start = 8 * 3600 + 45 * 60;         // 08:45:00
+    const hora2End = 9 * 3600 + 40 * 60;           // 09:40:00
+    const hora3Start = 9 * 3600 + 40 * 60;         // 09:40:00
+    const hora3End = 10 * 3600 + 35 * 60;          // 10:35:00
+    const recreoStart = 10 * 3600 + 35 * 60;       // 10:35:00
+    const recreoEnd = 11 * 3600;                   // 11:00:00
+    const hora4Start = 11 * 3600;                  // 11:00:00
+    const hora4End = 11 * 3600 + 55 * 60;          // 11:55:00
+    const hora5Start = 11 * 3600 + 55 * 60;        // 11:55:00
+    const hora5End = 12 * 3600 + 50 * 60;          // 12:50:00
+    const hora6Start = 12 * 3600 + 50 * 60;        // 12:50:00
+    const hora6End = 13 * 3600 + 45 * 60;          // 13:45:00
+
     const lectivoStart = 7 * 3600 + 54 * 60 + 59; // 07:54:59
     const lectivoEnd = 13 * 3600 + 44 * 60 + 59;   // 13:44:59
     const finStart = 13 * 3600 + 45 * 60;          // 13:45:00
     const finEnd = 14 * 3600;                      // 14:00:00
 
-    container.classList.remove('status-lectivo', 'status-fin', 'status-no-lectivo');
-    body.classList.remove('status-lectivo', 'status-fin', 'status-no-lectivo');
+    container.classList.remove('status-lectivo', 'status-fin', 'status-no-lectivo', 'status-hora', 'status-recreo');
+    body.classList.remove('status-lectivo', 'status-fin', 'status-no-lectivo', 'status-hora', 'status-recreo');
 
     const day = madridTime.getDay();
     const isWeekday = day >= 1 && day <= 5;
@@ -77,7 +93,36 @@ function updateExitStatus(madridTime) {
         return;
     }
 
-    if (secondsOfDay >= lectivoStart && secondsOfDay <= lectivoEnd) {
+    // Verificar horas específicas y recreo
+    if (secondsOfDay >= hora1Start && secondsOfDay < hora1End) {
+        container.classList.add('status-hora');
+        body.classList.add('status-hora');
+        exitMessage.textContent = '1ª hora (7:50 - 8:45)';
+    } else if (secondsOfDay >= hora2Start && secondsOfDay < hora2End) {
+        container.classList.add('status-hora');
+        body.classList.add('status-hora');
+        exitMessage.textContent = '2ª hora (8:45 - 9:40)';
+    } else if (secondsOfDay >= hora3Start && secondsOfDay < hora3End) {
+        container.classList.add('status-hora');
+        body.classList.add('status-hora');
+        exitMessage.textContent = '3ª hora (9:40 - 10:35)';
+    } else if (secondsOfDay >= recreoStart && secondsOfDay < recreoEnd) {
+        container.classList.add('status-recreo');
+        body.classList.add('status-recreo');
+        exitMessage.textContent = 'Recreo (10:35 - 11:00)';
+    } else if (secondsOfDay >= hora4Start && secondsOfDay < hora4End) {
+        container.classList.add('status-hora');
+        body.classList.add('status-hora');
+        exitMessage.textContent = '4ª hora (11:00 - 11:55)';
+    } else if (secondsOfDay >= hora5Start && secondsOfDay < hora5End) {
+        container.classList.add('status-hora');
+        body.classList.add('status-hora');
+        exitMessage.textContent = '5ª hora (11:55 - 12:50)';
+    } else if (secondsOfDay >= hora6Start && secondsOfDay < hora6End) {
+        container.classList.add('status-hora');
+        body.classList.add('status-hora');
+        exitMessage.textContent = '6ª hora (12:50 - 13:45)';
+    } else if (secondsOfDay >= lectivoStart && secondsOfDay <= lectivoEnd) {
         container.classList.add('status-lectivo');
         body.classList.add('status-lectivo');
         exitMessage.textContent = 'Horario lectivo';
