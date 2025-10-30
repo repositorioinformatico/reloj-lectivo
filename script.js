@@ -1,4 +1,5 @@
 let isMinimalMode = false;
+let isCountdownMode = false;
 
 function toggleMode() {
     const body = document.body;
@@ -12,21 +13,53 @@ function toggleMode() {
     isMinimalMode = !isMinimalMode;
 }
 
+function toggleCountdownMode(event) {
+    event.stopPropagation(); // Evitar que se active toggleMode
+    isCountdownMode = !isCountdownMode;
+
+    const titleElement = document.getElementById('title');
+
+    if (isCountdownMode) {
+        titleElement.textContent = 'Tiempo hasta el próximo cambio:';
+    } else {
+        titleElement.textContent = 'La hora actual es:';
+    }
+
+    updateTime(); // Actualizar inmediatamente
+}
+
 function updateTime() {
     const now = new Date();
 
     // Hora actual de Madrid
     const madridTime = new Date(now.toLocaleString("en-US", {timeZone: "Europe/Madrid"}));
-    const timeString = madridTime.toLocaleTimeString('es-ES', {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false
-    });
 
-    document.getElementById('current-time').textContent = timeString;
+    if (isCountdownMode) {
+        // Modo countdown
+        const countdownInfo = getNextScheduleChange(madridTime);
+        const countdownString = formatCountdown(countdownInfo.seconds);
 
-    // Fecha actual
+        document.getElementById('current-time').textContent = countdownString;
+
+        // Actualizar el mensaje de estado para mostrar el próximo cambio
+        const exitMessage = document.getElementById('exit-message');
+        exitMessage.textContent = `Próximo: ${countdownInfo.nextChange}`;
+    } else {
+        // Modo reloj normal
+        const timeString = madridTime.toLocaleTimeString('es-ES', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+        });
+
+        document.getElementById('current-time').textContent = timeString;
+
+        // Actualizar estado normal
+        updateExitStatus(madridTime);
+    }
+
+    // Fecha actual (se muestra en ambos modos)
     const dateOptions = {
         weekday: 'long',
         year: 'numeric',
@@ -40,8 +73,6 @@ function updateTime() {
 
     document.getElementById('current-date').textContent =
         `${dateString.charAt(0).toUpperCase() + dateString.slice(1)}, Semana ${weekNumber}`;
-
-    updateExitStatus(madridTime);
 
     // Actualizar horas mundiales
     updateWorldTimes(now);
@@ -166,6 +197,81 @@ function getWeekNumber(date) {
     const firstJan = new Date(date.getFullYear(), 0, 1);
     const days = Math.floor((date - firstJan) / (24 * 60 * 60 * 1000));
     return Math.ceil((days + firstJan.getDay() + 1) / 7);
+}
+
+function getNextScheduleChange(madridTime) {
+    const secondsOfDay =
+        madridTime.getHours() * 3600 + madridTime.getMinutes() * 60 + madridTime.getSeconds();
+
+    const day = madridTime.getDay();
+    const isWeekday = day >= 1 && day <= 5;
+
+    // Definición de horarios (igual que en updateExitStatus)
+    const scheduleChanges = [
+        { time: 7 * 3600 + 50 * 60, name: '1ª hora' },           // 07:50:00
+        { time: 8 * 3600 + 45 * 60, name: '2ª hora' },           // 08:45:00
+        { time: 9 * 3600 + 40 * 60, name: '3ª hora' },           // 09:40:00
+        { time: 10 * 3600 + 35 * 60, name: 'Recreo' },           // 10:35:00
+        { time: 11 * 3600, name: '4ª hora' },                    // 11:00:00
+        { time: 11 * 3600 + 55 * 60, name: '5ª hora' },          // 11:55:00
+        { time: 12 * 3600 + 50 * 60, name: '6ª hora' },          // 12:50:00
+        { time: 13 * 3600 + 45 * 60, name: 'Fin del horario' }   // 13:45:00
+    ];
+
+    if (!isWeekday) {
+        // Si es fin de semana, calcular hasta el próximo lunes a las 7:50
+        const daysUntilMonday = day === 0 ? 1 : 8 - day; // Si es domingo (0), 1 día; si es sábado (6), 2 días
+        const nextMonday = new Date(madridTime);
+        nextMonday.setDate(madridTime.getDate() + daysUntilMonday);
+        nextMonday.setHours(7, 50, 0, 0);
+
+        const secondsUntilMonday = Math.floor((nextMonday - madridTime) / 1000);
+        return {
+            seconds: secondsUntilMonday,
+            nextChange: 'Inicio del horario lectivo (Lunes 7:50)'
+        };
+    }
+
+    // Buscar el próximo cambio en el día actual
+    for (let i = 0; i < scheduleChanges.length; i++) {
+        if (secondsOfDay < scheduleChanges[i].time) {
+            const secondsUntilChange = scheduleChanges[i].time - secondsOfDay;
+            return {
+                seconds: secondsUntilChange,
+                nextChange: scheduleChanges[i].name
+            };
+        }
+    }
+
+    // Si ya pasaron todos los cambios de hoy, calcular hasta mañana (o lunes si es viernes)
+    const tomorrow = new Date(madridTime);
+    const isLastDayOfWeek = day === 5; // Viernes
+
+    if (isLastDayOfWeek) {
+        // Hasta el lunes
+        tomorrow.setDate(madridTime.getDate() + 3);
+    } else {
+        // Hasta mañana
+        tomorrow.setDate(madridTime.getDate() + 1);
+    }
+
+    tomorrow.setHours(7, 50, 0, 0);
+    const secondsUntilTomorrow = Math.floor((tomorrow - madridTime) / 1000);
+
+    const nextDayName = isLastDayOfWeek ? 'Lunes' : 'Mañana';
+    return {
+        seconds: secondsUntilTomorrow,
+        nextChange: `Inicio del horario lectivo (${nextDayName} 7:50)`
+    };
+}
+
+function formatCountdown(totalSeconds) {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    // Formato HH:MM:SS
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 }
 
 // Inicializar y actualizar cada segundo

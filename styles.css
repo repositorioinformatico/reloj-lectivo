@@ -263,3 +263,27 @@ body.status-no-lectivo {
         align-items: center;
     }
 }
+
+/* Botón transparente para toggle countdown */
+#countdown-toggle-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 120px;
+    height: 80px;
+    background: transparent;
+    cursor: pointer;
+    z-index: 1000;
+    border: none;
+}
+
+/* Mantener visible en modo minimal */
+.minimal-mode #countdown-toggle-button {
+    display: block;
+}
+
+/* Debug - descomentar para ver la zona clicable durante desarrollo */
+/* #countdown-toggle-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+} */
