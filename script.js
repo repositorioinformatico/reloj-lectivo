@@ -1,5 +1,6 @@
 let isMinimalMode = false;
 let isCountdownMode = false;
+let bathroomStudents = []; // Array de {name, startTime}
 
 function toggleMode() {
     const body = document.body;
@@ -286,3 +287,126 @@ document.addEventListener('selectstart', function(e) {
 
 // Añadir cursor pointer a todo el container
 document.getElementById('container').style.cursor = 'pointer';
+
+// ===== FUNCIONALIDAD DE CONTROL DE BAÑO =====
+
+function toggleBathroomControl(event) {
+    event.stopPropagation(); // Evitar que se active toggleMode
+    showBathroomModal();
+}
+
+function showBathroomModal() {
+    const modal = document.getElementById('bathroom-modal');
+    const input = document.getElementById('bathroom-name-input');
+
+    modal.style.display = 'flex';
+    input.value = '';
+
+    // Focus en el input después de un pequeño delay
+    setTimeout(() => input.focus(), 100);
+}
+
+function hideBathroomModal() {
+    const modal = document.getElementById('bathroom-modal');
+    modal.style.display = 'none';
+}
+
+function addStudentToBathroom() {
+    const input = document.getElementById('bathroom-name-input');
+    const studentName = input.value.trim();
+
+    if (studentName === '') {
+        alert('Por favor, ingresa un nombre');
+        return;
+    }
+
+    // Verificar si el alumno ya está registrado
+    const existingStudent = bathroomStudents.find(s => s.name === studentName);
+    if (existingStudent) {
+        alert('Este alumno ya está registrado en el baño');
+        return;
+    }
+
+    // Agregar nuevo alumno
+    bathroomStudents.push({
+        name: studentName,
+        startTime: new Date()
+    });
+
+    updateBathroomDisplay();
+    hideBathroomModal();
+}
+
+function removeStudentFromBathroom(studentName) {
+    const confirmed = confirm(`¿Marcar el regreso de ${studentName}?`);
+
+    if (confirmed) {
+        bathroomStudents = bathroomStudents.filter(s => s.name !== studentName);
+        updateBathroomDisplay();
+    }
+}
+
+function updateBathroomDisplay() {
+    const display = document.getElementById('bathroom-display');
+
+    if (bathroomStudents.length === 0) {
+        display.classList.add('empty');
+        display.innerHTML = '';
+        return;
+    }
+
+    display.classList.remove('empty');
+
+    // Actualizar el tiempo transcurrido para cada alumno
+    const now = new Date();
+    let html = '<div class="bathroom-title">Ausentes de clase</div>';
+
+    bathroomStudents.forEach(student => {
+        const elapsedSeconds = Math.floor((now - student.startTime) / 1000);
+        const timeString = formatElapsedTime(elapsedSeconds);
+
+        html += `
+            <div class="bathroom-student" onclick="removeStudentFromBathroom('${student.name}')">
+                <span class="bathroom-student-name">${student.name}</span>
+                <span class="bathroom-student-time">${timeString}</span>
+            </div>
+        `;
+    });
+
+    display.innerHTML = html;
+}
+
+function formatElapsedTime(totalSeconds) {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    if (hours > 0) {
+        return `${hours}h ${String(minutes).padStart(2, '0')}m`;
+    } else if (minutes > 0) {
+        return `${minutes}m ${String(seconds).padStart(2, '0')}s`;
+    } else {
+        return `${seconds}s`;
+    }
+}
+
+// Event listeners para el modal
+document.getElementById('bathroom-confirm-btn').addEventListener('click', addStudentToBathroom);
+document.getElementById('bathroom-cancel-btn').addEventListener('click', hideBathroomModal);
+
+// Permitir confirmar con Enter
+document.getElementById('bathroom-name-input').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        addStudentToBathroom();
+    }
+});
+
+// Cerrar modal al hacer clic fuera del contenido
+document.getElementById('bathroom-modal').addEventListener('click', function(event) {
+    if (event.target === this) {
+        hideBathroomModal();
+    }
+});
+
+// Actualizar la visualización de baño cada segundo
+setInterval(updateBathroomDisplay, 1000);
