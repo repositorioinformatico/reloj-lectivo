@@ -49,6 +49,24 @@
     <!-- Botón transparente para toggle countdown -->
     <div id="countdown-toggle-button" onclick="toggleCountdownMode(event)"></div>
 
+    <!-- Botón transparente para control de baño -->
+    <div id="bathroom-toggle-button" onclick="toggleBathroomControl(event)"></div>
+
+    <!-- Área de visualización de alumnos en el baño -->
+    <div id="bathroom-display"></div>
+
+    <!-- Modal para ingresar nombre de alumno -->
+    <div id="bathroom-modal" style="display: none;">
+        <div id="bathroom-modal-content">
+            <h2 id="bathroom-modal-title">Registrar alumno</h2>
+            <input type="text" id="bathroom-name-input" placeholder="Nombre del alumno">
+            <div id="bathroom-modal-buttons">
+                <button id="bathroom-confirm-btn">Confirmar</button>
+                <button id="bathroom-cancel-btn">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
