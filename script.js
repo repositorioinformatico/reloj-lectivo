@@ -456,10 +456,15 @@ function showNegativesModal() {
     const modal = document.getElementById('negatives-modal');
     const nameInput = document.getElementById('negatives-name-input');
     const reasonInput = document.getElementById('negatives-reason-input');
+    const confirmBtn = document.getElementById('negatives-confirm-btn');
+    const presetButtons = document.getElementById('negatives-preset-buttons');
 
     modal.style.display = 'flex';
     nameInput.value = '';
     reasonInput.value = '';
+    reasonInput.style.display = 'none';
+    confirmBtn.style.display = 'none';
+    presetButtons.style.display = 'grid';
 
     // Focus en el input después de un pequeño delay
     setTimeout(() => nameInput.focus(), 100);
@@ -518,6 +523,36 @@ function addNegativeRecord() {
 // Event listeners para el modal de negativos
 document.getElementById('negatives-confirm-btn').addEventListener('click', addNegativeRecord);
 document.getElementById('negatives-cancel-btn').addEventListener('click', hideNegativesModal);
+
+// Event listeners para los botones predeterminados
+document.querySelectorAll('.negative-preset-btn').forEach(btn => {
+    btn.addEventListener('click', function(event) {
+        event.preventDefault();
+        const reason = this.getAttribute('data-reason');
+        const nameInput = document.getElementById('negatives-name-input');
+        const reasonInput = document.getElementById('negatives-reason-input');
+        const confirmBtn = document.getElementById('negatives-confirm-btn');
+        const presetButtons = document.getElementById('negatives-preset-buttons');
+
+        if (nameInput.value.trim() === '') {
+            alert('Por favor, ingresa el nombre del alumno primero');
+            nameInput.focus();
+            return;
+        }
+
+        if (reason === 'custom') {
+            // Mostrar el textarea para motivo personalizado
+            presetButtons.style.display = 'none';
+            reasonInput.style.display = 'block';
+            confirmBtn.style.display = 'block';
+            reasonInput.focus();
+        } else {
+            // Usar el motivo predeterminado y registrar directamente
+            reasonInput.value = reason;
+            addNegativeRecord();
+        }
+    });
+});
 
 // Permitir confirmar con Enter en el campo de motivo
 document.getElementById('negatives-reason-input').addEventListener('keypress', function(event) {
