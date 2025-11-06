@@ -75,9 +75,17 @@
         <div id="negatives-modal-content">
             <h2 id="negatives-modal-title">Registrar negativo</h2>
             <input type="text" id="negatives-name-input" placeholder="Nombre del alumno">
-            <textarea id="negatives-reason-input" placeholder="Motivo del negativo" rows="3"></textarea>
+            <div id="negatives-preset-buttons">
+                <button class="negative-preset-btn" data-reason="Conversación reiterada que interrumpe la clase">Conversación reiterada</button>
+                <button class="negative-preset-btn" data-reason="Comportamiento disruptivo hacia los compañeros">Comportamiento disruptivo</button>
+                <button class="negative-preset-btn" data-reason="Falta de respeto al docente">Falta de respeto</button>
+                <button class="negative-preset-btn" data-reason="Desafío a la autoridad del profesor">Desafío a la autoridad</button>
+                <button class="negative-preset-btn" data-reason="Uso inadecuado de dispositivos electrónicos">Uso de dispositivos</button>
+                <button class="negative-preset-btn negative-custom-btn" data-reason="custom">Otro motivo...</button>
+            </div>
+            <textarea id="negatives-reason-input" placeholder="O escribe el motivo aquí" rows="3" style="display: none;"></textarea>
             <div id="negatives-modal-buttons">
-                <button id="negatives-confirm-btn">Confirmar</button>
+                <button id="negatives-confirm-btn" style="display: none;">Confirmar</button>
                 <button id="negatives-cancel-btn">Cancelar</button>
             </div>
         </div>
