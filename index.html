@@ -52,6 +52,9 @@
     <!-- Botón transparente para control de baño -->
     <div id="bathroom-toggle-button" onclick="toggleBathroomControl(event)"></div>
 
+    <!-- Botón transparente para registro de negativos -->
+    <div id="negatives-toggle-button" onclick="toggleNegativesControl(event)"></div>
+
     <!-- Área de visualización de alumnos en el baño -->
     <div id="bathroom-display"></div>
 
@@ -63,6 +66,19 @@
             <div id="bathroom-modal-buttons">
                 <button id="bathroom-confirm-btn">Confirmar</button>
                 <button id="bathroom-cancel-btn">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para registrar negativos -->
+    <div id="negatives-modal" style="display: none;">
+        <div id="negatives-modal-content">
+            <h2 id="negatives-modal-title">Registrar negativo</h2>
+            <input type="text" id="negatives-name-input" placeholder="Nombre del alumno">
+            <textarea id="negatives-reason-input" placeholder="Motivo del negativo" rows="3"></textarea>
+            <div id="negatives-modal-buttons">
+                <button id="negatives-confirm-btn">Confirmar</button>
+                <button id="negatives-cancel-btn">Cancelar</button>
             </div>
         </div>
     </div>
