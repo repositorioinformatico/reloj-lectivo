@@ -312,6 +312,30 @@ body.status-no-lectivo {
     border: 2px dashed rgba(255, 255, 255, 0.3);
 } */
 
+/* Botón transparente para registro de negativos */
+#negatives-toggle-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 120px;
+    height: 80px;
+    background: transparent;
+    cursor: pointer;
+    z-index: 1000;
+    border: none;
+}
+
+/* Mantener visible en modo minimal */
+.minimal-mode #negatives-toggle-button {
+    display: block;
+}
+
+/* Debug - descomentar para ver la zona clicable durante desarrollo */
+/* #negatives-toggle-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+} */
+
 /* Modal de baño */
 #bathroom-modal {
     position: fixed;
@@ -450,4 +474,91 @@ body.status-no-lectivo {
     font-size: 14px;
     color: #e0e0e0;
     font-family: 'Courier New', monospace;
+}
+
+/* Modal de negativos */
+#negatives-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+#negatives-modal-content {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    width: 90%;
+}
+
+#negatives-modal-title {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#negatives-name-input,
+#negatives-reason-input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-family: Arial, sans-serif;
+}
+
+#negatives-reason-input {
+    resize: vertical;
+    min-height: 80px;
+}
+
+#negatives-name-input:focus,
+#negatives-reason-input:focus {
+    outline: none;
+    border-color: #c62828;
+}
+
+#negatives-modal-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+#negatives-modal-buttons button {
+    padding: 10px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: Arial, sans-serif;
+}
+
+#negatives-confirm-btn {
+    background: #c62828;
+    color: white;
+}
+
+#negatives-confirm-btn:hover {
+    background: #8e0000;
+}
+
+#negatives-cancel-btn {
+    background: #e0e0e0;
+    color: #333;
+}
+
+#negatives-cancel-btn:hover {
+    background: #bdbdbd;
 }
