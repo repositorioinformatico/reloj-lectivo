@@ -600,8 +600,9 @@ function generateDailyLogContent() {
             content += `\n`;
         } else if (entry.type === 'ausencia') {
             const duration = formatDuration(entry.duration);
-            content += `[${entry.startTimeString} - ${entry.endTimeString}] AUSENCIA DEL AULA\n`;
+            content += `[${entry.startTimeString}] AUSENCIA DEL AULA\n`;
             content += `  Alumno: ${entry.studentName}\n`;
+            content += `  Regreso al aula: ${entry.endTimeString}\n`;
             content += `  Duración: ${duration}\n`;
             content += `\n`;
         }
