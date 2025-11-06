@@ -655,21 +655,18 @@ function downloadDailyLog() {
     return true;
 }
 
-// Evento para preguntar antes de cerrar la página
-window.addEventListener('beforeunload', function(e) {
-    if (dailyLog.length > 0) {
-        // Mostrar confirmación del navegador
-        e.preventDefault();
-        e.returnValue = '';
+// Event listeners para botones de descarga en los modales
+document.getElementById('bathroom-download-btn').addEventListener('click', function() {
+    const success = downloadDailyLog();
+    if (!success) {
+        alert('No hay registros para descargar todavía');
+    }
+});
 
-        // Intentar descargar (algunos navegadores permiten esto)
-        // Nota: La mayoría de navegadores modernos no permiten mostrar un mensaje personalizado
-        // ni ejecutar descargas en beforeunload, pero preguntarán si quiere salir
-        setTimeout(() => {
-            if (confirm('¿Deseas descargar el registro de la clase antes de cerrar?')) {
-                downloadDailyLog();
-            }
-        }, 0);
+document.getElementById('negatives-download-btn').addEventListener('click', function() {
+    const success = downloadDailyLog();
+    if (!success) {
+        alert('No hay registros para descargar todavía');
     }
 });
 

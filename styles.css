@@ -610,3 +610,33 @@ body.status-no-lectivo {
         grid-column: 1;
     }
 }
+
+/* Botones de descarga en modales */
+#bathroom-download-section,
+#negatives-download-section {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px solid #e0e0e0;
+}
+
+.download-btn {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    background: #2e7d32;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: Arial, sans-serif;
+}
+
+.download-btn:hover {
+    background: #1b5e20;
+}
+
+.download-btn:active {
+    transform: scale(0.98);
+}
