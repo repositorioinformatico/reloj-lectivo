@@ -12,6 +12,8 @@
             <h1 id="title">La hora actual es:</h1>
         </div>
 
+        <div id="hour-activity-note" style="display: none;"></div>
+
         <div id="exit-message">Horario no lectivo</div>
 
         <div id="time-display">
@@ -94,6 +96,19 @@
             </div>
             <div id="negatives-download-section">
                 <button id="negatives-download-btn" class="download-btn">📥 Descargar registro aula</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para nota de actividad -->
+    <div id="activity-modal" style="display: none;">
+        <div id="activity-modal-content">
+            <h2 id="activity-modal-title">Nota de actividad</h2>
+            <input type="text" id="activity-note-input" placeholder="Ej: EXAMEN, Presentaciones, Trabajo en grupo...">
+            <div id="activity-modal-buttons">
+                <button id="activity-confirm-btn">Guardar</button>
+                <button id="activity-clear-btn">Borrar nota</button>
+                <button id="activity-cancel-btn">Cancelar</button>
             </div>
         </div>
     </div>
