@@ -640,3 +640,120 @@ body.status-no-lectivo {
 .download-btn:active {
     transform: scale(0.98);
 }
+
+/* Nota de actividad de hora */
+#hour-activity-note {
+    font-size: 48px;
+    font-weight: 900;
+    margin-bottom: 15px;
+    padding: 18px 32px;
+    border-radius: 16px;
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border: 3px solid rgba(255, 255, 255, 0.8);
+}
+
+/* Hacer el mensaje de hora clickeable */
+#exit-message {
+    cursor: pointer;
+    user-select: none;
+}
+
+#exit-message:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
+}
+
+/* Modal de actividad */
+#activity-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+#activity-modal-content {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    max-width: 450px;
+    width: 90%;
+}
+
+#activity-modal-title {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#activity-note-input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-family: Arial, sans-serif;
+}
+
+#activity-note-input:focus {
+    outline: none;
+    border-color: #1565c0;
+}
+
+#activity-modal-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#activity-modal-buttons button {
+    padding: 10px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: Arial, sans-serif;
+}
+
+#activity-confirm-btn {
+    background: #1565c0;
+    color: white;
+}
+
+#activity-confirm-btn:hover {
+    background: #0d47a1;
+}
+
+#activity-clear-btn {
+    background: #f57c00;
+    color: white;
+}
+
+#activity-clear-btn:hover {
+    background: #e65100;
+}
+
+#activity-cancel-btn {
+    background: #e0e0e0;
+    color: #333;
+}
+
+#activity-cancel-btn:hover {
+    background: #bdbdbd;
+}

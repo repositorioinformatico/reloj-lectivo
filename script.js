@@ -694,3 +694,101 @@ window.addEventListener('load', function() {
         dateString: dateString
     });
 });
+
+// ===== FUNCIONALIDAD DE NOTA DE ACTIVIDAD =====
+
+let currentActivityNote = '';
+
+// Cargar nota guardada al inicio
+function loadActivityNote() {
+    const savedNote = localStorage.getItem('hourActivityNote');
+    if (savedNote) {
+        currentActivityNote = savedNote;
+        updateActivityNoteDisplay();
+    }
+}
+
+// Actualizar visualización de la nota
+function updateActivityNoteDisplay() {
+    const noteElement = document.getElementById('hour-activity-note');
+
+    if (currentActivityNote && currentActivityNote.trim() !== '') {
+        noteElement.textContent = currentActivityNote;
+        noteElement.style.display = 'inline-block';
+    } else {
+        noteElement.style.display = 'none';
+    }
+}
+
+// Mostrar modal de actividad
+function showActivityModal(event) {
+    event.stopPropagation(); // Evitar que se active toggleMode
+
+    const modal = document.getElementById('activity-modal');
+    const input = document.getElementById('activity-note-input');
+
+    modal.style.display = 'flex';
+    input.value = currentActivityNote;
+
+    // Focus en el input después de un pequeño delay
+    setTimeout(() => {
+        input.focus();
+        input.select();
+    }, 100);
+}
+
+// Ocultar modal de actividad
+function hideActivityModal() {
+    const modal = document.getElementById('activity-modal');
+    modal.style.display = 'none';
+}
+
+// Guardar nota de actividad
+function saveActivityNote() {
+    const input = document.getElementById('activity-note-input');
+    const note = input.value.trim();
+
+    currentActivityNote = note;
+    localStorage.setItem('hourActivityNote', note);
+
+    updateActivityNoteDisplay();
+    hideActivityModal();
+}
+
+// Borrar nota de actividad
+function clearActivityNote() {
+    const confirmed = confirm('¿Estás seguro de que quieres borrar la nota de actividad?');
+
+    if (confirmed) {
+        currentActivityNote = '';
+        localStorage.removeItem('hourActivityNote');
+        updateActivityNoteDisplay();
+        hideActivityModal();
+    }
+}
+
+// Event listener para hacer clickeable el texto de hora
+document.getElementById('exit-message').addEventListener('click', showActivityModal);
+
+// Event listeners para botones del modal de actividad
+document.getElementById('activity-confirm-btn').addEventListener('click', saveActivityNote);
+document.getElementById('activity-clear-btn').addEventListener('click', clearActivityNote);
+document.getElementById('activity-cancel-btn').addEventListener('click', hideActivityModal);
+
+// Permitir confirmar con Enter
+document.getElementById('activity-note-input').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        saveActivityNote();
+    }
+});
+
+// Cerrar modal al hacer clic fuera del contenido
+document.getElementById('activity-modal').addEventListener('click', function(event) {
+    if (event.target === this) {
+        hideActivityModal();
+    }
+});
+
+// Cargar nota al inicio
+loadActivityNote();
