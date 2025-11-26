@@ -1,5 +1,7 @@
 let isMinimalMode = false;
 let isCountdownMode = false;
+let isCustomCountdownMode = false;
+let customCountdownTarget = null; // {hours, minutes, label}
 let bathroomStudents = []; // Array de {name, startTime}
 let dailyLog = []; // Array para el registro diario completo
 
@@ -36,7 +38,17 @@ function updateTime() {
     // Hora actual de Madrid
     const madridTime = new Date(now.toLocaleString("en-US", {timeZone: "Europe/Madrid"}));
 
-    if (isCountdownMode) {
+    if (isCustomCountdownMode && customCountdownTarget) {
+        // Modo cuenta atrás personalizada
+        const countdownInfo = getCustomCountdown(madridTime);
+        const countdownString = formatCountdown(countdownInfo.seconds);
+
+        document.getElementById('current-time').textContent = countdownString;
+
+        // Actualizar el mensaje de estado
+        const exitMessage = document.getElementById('exit-message');
+        exitMessage.textContent = `Cuenta atrás hasta: ${countdownInfo.label}`;
+    } else if (isCountdownMode) {
         // Modo countdown
         const countdownInfo = getNextScheduleChange(madridTime);
         const countdownString = formatCountdown(countdownInfo.seconds);
@@ -792,3 +804,107 @@ document.getElementById('activity-modal').addEventListener('click', function(eve
 
 // Cargar nota al inicio
 loadActivityNote();
+
+// ===== FUNCIONALIDAD DE CUENTA ATRÁS PERSONALIZADA =====
+
+function toggleCustomCountdownControl(event) {
+    event.stopPropagation(); // Evitar que se active toggleMode
+    showCustomCountdownModal();
+}
+
+function showCustomCountdownModal() {
+    const modal = document.getElementById('custom-countdown-modal');
+    const select = document.getElementById('custom-countdown-select');
+
+    modal.style.display = 'flex';
+
+    // Seleccionar la primera opción por defecto
+    if (select.options.length > 0) {
+        select.selectedIndex = 0;
+    }
+
+    // Focus en el select después de un pequeño delay
+    setTimeout(() => select.focus(), 100);
+}
+
+function hideCustomCountdownModal() {
+    const modal = document.getElementById('custom-countdown-modal');
+    modal.style.display = 'none';
+}
+
+function startCustomCountdown() {
+    const select = document.getElementById('custom-countdown-select');
+
+    if (select.selectedIndex === -1) {
+        alert('Por favor, selecciona una hora');
+        return;
+    }
+
+    const selectedOption = select.options[select.selectedIndex];
+    const timeValue = selectedOption.value; // Formato "HH:MM"
+    const label = selectedOption.textContent; // Ej: "07:50 - 1ª hora"
+
+    const [hours, minutes] = timeValue.split(':').map(Number);
+
+    customCountdownTarget = {
+        hours: hours,
+        minutes: minutes,
+        label: label
+    };
+
+    isCustomCountdownMode = true;
+    isCountdownMode = false; // Desactivar el countdown automático
+
+    // Actualizar el título
+    const titleElement = document.getElementById('title');
+    titleElement.textContent = 'Tiempo restante:';
+
+    hideCustomCountdownModal();
+    updateTime(); // Actualizar inmediatamente
+}
+
+function getCustomCountdown(madridTime) {
+    if (!customCountdownTarget) {
+        return { seconds: 0, label: 'Sin objetivo' };
+    }
+
+    const currentSeconds =
+        madridTime.getHours() * 3600 +
+        madridTime.getMinutes() * 60 +
+        madridTime.getSeconds();
+
+    const targetSeconds =
+        customCountdownTarget.hours * 3600 +
+        customCountdownTarget.minutes * 60;
+
+    let secondsUntilTarget = targetSeconds - currentSeconds;
+
+    // Si el tiempo objetivo ya pasó hoy, mostrar 00:00:00
+    if (secondsUntilTarget < 0) {
+        secondsUntilTarget = 0;
+    }
+
+    return {
+        seconds: secondsUntilTarget,
+        label: customCountdownTarget.label
+    };
+}
+
+// Event listeners para el modal de cuenta atrás personalizada
+document.getElementById('custom-countdown-confirm-btn').addEventListener('click', startCustomCountdown);
+document.getElementById('custom-countdown-cancel-btn').addEventListener('click', hideCustomCountdownModal);
+
+// Cerrar modal al hacer clic fuera del contenido
+document.getElementById('custom-countdown-modal').addEventListener('click', function(event) {
+    if (event.target === this) {
+        hideCustomCountdownModal();
+    }
+});
+
+// Permitir confirmar con Enter o doble clic en el select
+document.getElementById('custom-countdown-select').addEventListener('dblclick', startCustomCountdown);
+document.getElementById('custom-countdown-select').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        startCustomCountdown();
+    }
+});

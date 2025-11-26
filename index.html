@@ -57,6 +57,9 @@
     <!-- Botón transparente para registro de negativos -->
     <div id="negatives-toggle-button" onclick="toggleNegativesControl(event)"></div>
 
+    <!-- Botón transparente para cuenta atrás personalizada -->
+    <div id="custom-countdown-toggle-button" onclick="toggleCustomCountdownControl(event)"></div>
+
     <!-- Área de visualización de alumnos en el baño -->
     <div id="bathroom-display"></div>
 
@@ -109,6 +112,28 @@
                 <button id="activity-confirm-btn">Guardar</button>
                 <button id="activity-clear-btn">Borrar nota</button>
                 <button id="activity-cancel-btn">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para cuenta atrás personalizada -->
+    <div id="custom-countdown-modal" style="display: none;">
+        <div id="custom-countdown-modal-content">
+            <h2 id="custom-countdown-modal-title">Cuenta atrás personalizada</h2>
+            <p id="custom-countdown-description">Selecciona hasta qué hora quieres la cuenta atrás:</p>
+            <select id="custom-countdown-select" size="8">
+                <option value="07:50">07:50 - 1ª hora</option>
+                <option value="08:45">08:45 - 2ª hora</option>
+                <option value="09:40">09:40 - 3ª hora</option>
+                <option value="10:35">10:35 - Recreo</option>
+                <option value="11:00">11:00 - 4ª hora</option>
+                <option value="11:55">11:55 - 5ª hora</option>
+                <option value="12:50">12:50 - 6ª hora</option>
+                <option value="13:45">13:45 - Fin del horario</option>
+            </select>
+            <div id="custom-countdown-modal-buttons">
+                <button id="custom-countdown-confirm-btn">Iniciar cuenta atrás</button>
+                <button id="custom-countdown-cancel-btn">Cancelar</button>
             </div>
         </div>
     </div>

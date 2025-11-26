@@ -336,6 +336,30 @@ body.status-no-lectivo {
     border: 2px dashed rgba(255, 255, 255, 0.3);
 } */
 
+/* Botón transparente para cuenta atrás personalizada */
+#custom-countdown-toggle-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 120px;
+    height: 80px;
+    background: transparent;
+    cursor: pointer;
+    z-index: 1000;
+    border: none;
+}
+
+/* Mantener visible en modo minimal */
+.minimal-mode #custom-countdown-toggle-button {
+    display: block;
+}
+
+/* Debug - descomentar para ver la zona clicable durante desarrollo */
+/* #custom-countdown-toggle-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+} */
+
 /* Modal de baño */
 #bathroom-modal {
     position: fixed;
@@ -755,5 +779,106 @@ body.status-no-lectivo {
 }
 
 #activity-cancel-btn:hover {
+    background: #bdbdbd;
+}
+
+/* Modal de cuenta atrás personalizada */
+#custom-countdown-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+#custom-countdown-modal-content {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    width: 90%;
+}
+
+#custom-countdown-modal-title {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+#custom-countdown-description {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-weight: normal;
+}
+
+#custom-countdown-select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-family: 'Courier New', monospace;
+    background: #f9f9f9;
+    cursor: pointer;
+}
+
+#custom-countdown-select option {
+    padding: 8px;
+    font-size: 16px;
+}
+
+#custom-countdown-select option:hover {
+    background: #1565c0;
+    color: white;
+}
+
+#custom-countdown-select:focus {
+    outline: none;
+    border-color: #1565c0;
+}
+
+#custom-countdown-modal-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+#custom-countdown-modal-buttons button {
+    padding: 10px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: Arial, sans-serif;
+}
+
+#custom-countdown-confirm-btn {
+    background: #1565c0;
+    color: white;
+}
+
+#custom-countdown-confirm-btn:hover {
+    background: #0d47a1;
+}
+
+#custom-countdown-cancel-btn {
+    background: #e0e0e0;
+    color: #333;
+}
+
+#custom-countdown-cancel-btn:hover {
     background: #bdbdbd;
 }
