@@ -672,13 +672,16 @@ body.status-no-lectivo {
     margin-bottom: 15px;
     padding: 18px 32px;
     border-radius: 16px;
-    display: inline-block;
+    display: block;
     background: rgba(255, 255, 255, 0.95);
     color: #333;
     text-transform: uppercase;
     letter-spacing: 2px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     border: 3px solid rgba(255, 255, 255, 0.8);
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
 }
 
 /* Hacer el mensaje de hora clickeable */
