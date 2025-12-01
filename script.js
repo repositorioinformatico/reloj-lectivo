@@ -815,8 +815,19 @@ function toggleCustomCountdownControl(event) {
 function showCustomCountdownModal() {
     const modal = document.getElementById('custom-countdown-modal');
     const select = document.getElementById('custom-countdown-select');
+    const customInputs = document.getElementById('custom-time-inputs');
+    const description = document.getElementById('custom-countdown-description');
 
     modal.style.display = 'flex';
+
+    // Mostrar el select y ocultar los inputs al abrir
+    select.style.display = 'block';
+    customInputs.style.display = 'none';
+    description.style.display = 'block';
+
+    // Limpiar los inputs
+    document.getElementById('custom-hour-input').value = '';
+    document.getElementById('custom-minute-input').value = '';
 
     // Seleccionar la primera opción por defecto
     if (select.options.length > 0) {
@@ -832,19 +843,65 @@ function hideCustomCountdownModal() {
     modal.style.display = 'none';
 }
 
+function showCustomTimeInputs() {
+    const select = document.getElementById('custom-countdown-select');
+    const customInputs = document.getElementById('custom-time-inputs');
+    const description = document.getElementById('custom-countdown-description');
+
+    // Ocultar el select y mostrar los inputs
+    select.style.display = 'none';
+    customInputs.style.display = 'block';
+    description.style.display = 'none';
+
+    // Focus en el input de hora
+    setTimeout(() => document.getElementById('custom-hour-input').focus(), 100);
+}
+
 function startCustomCountdown() {
     const select = document.getElementById('custom-countdown-select');
+    const customInputs = document.getElementById('custom-time-inputs');
+    const hourInput = document.getElementById('custom-hour-input');
+    const minuteInput = document.getElementById('custom-minute-input');
 
-    if (select.selectedIndex === -1) {
-        alert('Por favor, selecciona una hora');
-        return;
+    let hours, minutes, label;
+
+    // Verificar si se está usando el modo de inputs personalizados
+    if (customInputs.style.display === 'block') {
+        // Modo de hora personalizada
+        const hourValue = hourInput.value.trim();
+        const minuteValue = minuteInput.value.trim();
+
+        if (hourValue === '' || minuteValue === '') {
+            alert('Por favor, introduce la hora y los minutos');
+            return;
+        }
+
+        hours = parseInt(hourValue, 10);
+        minutes = parseInt(minuteValue, 10);
+
+        // Validar valores
+        if (isNaN(hours) || isNaN(minutes) || hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
+            alert('Por favor, introduce valores válidos (Hora: 0-23, Minutos: 0-59)');
+            return;
+        }
+
+        // Formatear la hora para la etiqueta
+        const formattedHour = String(hours).padStart(2, '0');
+        const formattedMinute = String(minutes).padStart(2, '0');
+        label = `${formattedHour}:${formattedMinute} - Hora personalizada`;
+    } else {
+        // Modo de selección de lista predefinida
+        if (select.selectedIndex === -1) {
+            alert('Por favor, selecciona una hora');
+            return;
+        }
+
+        const selectedOption = select.options[select.selectedIndex];
+        const timeValue = selectedOption.value; // Formato "HH:MM"
+        label = selectedOption.textContent; // Ej: "07:50 - 1ª hora"
+
+        [hours, minutes] = timeValue.split(':').map(Number);
     }
-
-    const selectedOption = select.options[select.selectedIndex];
-    const timeValue = selectedOption.value; // Formato "HH:MM"
-    const label = selectedOption.textContent; // Ej: "07:50 - 1ª hora"
-
-    const [hours, minutes] = timeValue.split(':').map(Number);
 
     customCountdownTarget = {
         hours: hours,
@@ -893,6 +950,7 @@ function getCustomCountdown(madridTime) {
 // Event listeners para el modal de cuenta atrás personalizada
 document.getElementById('custom-countdown-confirm-btn').addEventListener('click', startCustomCountdown);
 document.getElementById('custom-countdown-cancel-btn').addEventListener('click', hideCustomCountdownModal);
+document.getElementById('custom-time-btn').addEventListener('click', showCustomTimeInputs);
 
 // Cerrar modal al hacer clic fuera del contenido
 document.getElementById('custom-countdown-modal').addEventListener('click', function(event) {
@@ -904,6 +962,18 @@ document.getElementById('custom-countdown-modal').addEventListener('click', func
 // Permitir confirmar con Enter o doble clic en el select
 document.getElementById('custom-countdown-select').addEventListener('dblclick', startCustomCountdown);
 document.getElementById('custom-countdown-select').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        startCustomCountdown();
+    }
+});
+
+// Permitir confirmar con Enter en los inputs de hora personalizada
+document.getElementById('custom-hour-input').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        startCustomCountdown();
+    }
+});
+document.getElementById('custom-minute-input').addEventListener('keypress', function(event) {
     if (event.key === 'Enter') {
         startCustomCountdown();
     }

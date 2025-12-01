@@ -131,9 +131,18 @@
                 <option value="12:50">12:50 - 6ª hora</option>
                 <option value="13:45">13:45 - Fin del horario</option>
             </select>
+            <div id="custom-time-inputs" style="display: none;">
+                <p>Introduce la hora límite (HH:MM):</p>
+                <div style="display: flex; gap: 10px; justify-content: center; align-items: center;">
+                    <input type="number" id="custom-hour-input" placeholder="HH" min="0" max="23" style="width: 80px; text-align: center; font-size: 1.2em;">
+                    <span style="font-size: 1.5em;">:</span>
+                    <input type="number" id="custom-minute-input" placeholder="MM" min="0" max="59" style="width: 80px; text-align: center; font-size: 1.2em;">
+                </div>
+            </div>
             <div id="custom-countdown-modal-buttons">
                 <button id="custom-countdown-confirm-btn">Iniciar cuenta atrás</button>
                 <button id="custom-countdown-cancel-btn">Cancelar</button>
+                <button id="custom-time-btn">Introducir una hora límite diferente</button>
             </div>
         </div>
     </div>
