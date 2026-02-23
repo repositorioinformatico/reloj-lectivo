@@ -995,6 +995,7 @@ let isPhaseOverlayActive = false;
 let phaseTimings = classPhases.map(() => 0); // ms acumulados por fase
 let phaseCurrentStart = null; // cuándo empezó el temporizador de la fase actual
 let classRoutineStarted = false; // si la rutina ya se ha iniciado
+let phaseShownOnce = false; // si ya se ha mostrado alguna fase al menos una vez
 
 function toggleClassRoutineNav(event) {
     event.stopPropagation();
@@ -1020,16 +1021,22 @@ function switchToPhase(newIndex) {
 
 function goToNextPhase(event) {
     event.stopPropagation();
-    const newIndex = Math.min(currentPhaseIndex + 1, classPhases.length - 1);
-    switchToPhase(newIndex);
+    if (phaseShownOnce) {
+        switchToPhase(Math.min(currentPhaseIndex + 1, classPhases.length - 1));
+    } else {
+        phaseShownOnce = true;
+    }
     showPhaseOverlay();
     hideClassNav();
 }
 
 function goToPrevPhase(event) {
     event.stopPropagation();
-    const newIndex = Math.max(currentPhaseIndex - 1, 0);
-    switchToPhase(newIndex);
+    if (phaseShownOnce) {
+        switchToPhase(Math.max(currentPhaseIndex - 1, 0));
+    } else {
+        phaseShownOnce = true;
+    }
     showPhaseOverlay();
     hideClassNav();
 }
