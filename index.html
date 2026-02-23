@@ -147,6 +147,40 @@
         </div>
     </div>
 
+    <!-- Botón invisible para rutina de clase (zona derecha central) -->
+    <div id="class-routine-trigger" onclick="toggleClassRoutineNav(event)"></div>
+
+    <!-- Botones de navegación de fases de clase -->
+    <div id="class-routine-nav" style="display: none;">
+        <div id="class-routine-next-btn" onclick="goToNextPhase(event)">Pasar a la siguiente<br>fase de clase</div>
+        <div id="class-routine-prev-btn" onclick="goToPrevPhase(event)">Pasar a la fase<br>anterior de clase</div>
+    </div>
+
+    <!-- Overlay fullscreen de fase de clase -->
+    <div id="phase-overlay" style="display: none;">
+        <div id="phase-content">
+            <h1 id="phase-title"></h1>
+            <p id="phase-progress"></p>
+            <div id="phase-download-section" style="display: none;">
+                <button id="phase-download-btn" type="button">Descargar estadísticas de clase</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de selección de número de sesiones -->
+    <div id="sessions-modal" style="display: none;">
+        <div id="sessions-modal-content">
+            <h2 id="sessions-modal-title">¿Cuántas sesiones ha tenido la clase?</h2>
+            <p id="sessions-modal-subtitle">Cada sesión equivale a 55 minutos</p>
+            <div id="sessions-buttons">
+                <button class="session-btn" data-sessions="1">1 sesión<br><small>55 min</small></button>
+                <button class="session-btn" data-sessions="2">2 sesiones<br><small>110 min</small></button>
+                <button class="session-btn" data-sessions="3">3 sesiones<br><small>165 min</small></button>
+            </div>
+            <button id="sessions-cancel-btn">Cancelar</button>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>

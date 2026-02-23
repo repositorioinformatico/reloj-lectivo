@@ -885,3 +885,211 @@ body.status-no-lectivo {
 #custom-countdown-cancel-btn:hover {
     background: #bdbdbd;
 }
+
+/* ===== RUTINA DE CLASE ===== */
+
+/* Botón invisible para activar la rutina de clase (zona derecha central) */
+#class-routine-trigger {
+    position: fixed;
+    right: 0;
+    bottom: 150px;
+    width: 210px;
+    height: 200px;
+    background: transparent;
+    cursor: pointer;
+    z-index: 999;
+    border: none;
+}
+
+.minimal-mode #class-routine-trigger {
+    display: block;
+}
+
+/* Botones de navegación de fases */
+#class-routine-nav {
+    position: fixed;
+    right: 20px;
+    top: 30%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 1002;
+}
+
+#class-routine-next-btn,
+#class-routine-prev-btn {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 12px;
+    padding: 20px 16px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: Arial, sans-serif;
+    width: 175px;
+    backdrop-filter: blur(5px);
+    transition: background 0.2s ease;
+    line-height: 1.5;
+    user-select: none;
+}
+
+#class-routine-next-btn:hover,
+#class-routine-prev-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Overlay fullscreen de fase de clase */
+#phase-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+    cursor: pointer;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#phase-content {
+    text-align: center;
+    padding: 2rem 4vw;
+    width: 92vw;
+    max-width: 92vw;
+}
+
+#phase-title {
+    font-size: clamp(5rem, 18vw, 22rem);
+    font-weight: 700;
+    color: #111111;
+    margin: 0 0 0.4em;
+    line-height: 1.05;
+    word-break: break-word;
+}
+
+#phase-progress {
+    font-size: clamp(1.2rem, 3vw, 3rem);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #555555;
+    margin: 0;
+}
+
+#phase-download-section {
+    margin-top: 2rem;
+}
+
+#phase-download-btn {
+    padding: 0.85rem 1.6rem;
+    font-size: 1rem;
+    border: 1px solid #111111;
+    background: transparent;
+    color: #111111;
+    cursor: pointer;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+#phase-download-btn:hover {
+    background: #111111;
+    color: white;
+}
+
+/* Modal de selección de sesiones */
+#sessions-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 4000;
+}
+
+#sessions-modal-content {
+    background: #ffffff;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#sessions-modal-title {
+    color: #111111;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+#sessions-modal-subtitle {
+    color: #555555;
+    font-size: 14px;
+    margin-bottom: 25px;
+    font-weight: 400;
+}
+
+#sessions-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.session-btn {
+    padding: 16px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    border: 2px solid #111111;
+    background: transparent;
+    color: #111111;
+    border-radius: 8px;
+    cursor: pointer;
+    flex: 1;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    transition: background 0.2s ease, color 0.2s ease;
+    line-height: 1.4;
+}
+
+.session-btn small {
+    display: block;
+    font-size: 12px;
+    font-weight: 400;
+    color: #777;
+    margin-top: 4px;
+}
+
+.session-btn:hover {
+    background: #111111;
+    color: white;
+}
+
+.session-btn:hover small {
+    color: #ddd;
+}
+
+#sessions-cancel-btn {
+    padding: 10px 24px;
+    font-size: 14px;
+    background: #e0e0e0;
+    color: #333;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    transition: background 0.2s ease;
+}
+
+#sessions-cancel-btn:hover {
+    background: #bdbdbd;
+}

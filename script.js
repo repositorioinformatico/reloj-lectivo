@@ -978,3 +978,191 @@ document.getElementById('custom-minute-input').addEventListener('keypress', func
         startCustomCountdown();
     }
 });
+
+// ===== RUTINA DE CLASE =====
+
+const classPhases = [
+    "Pasar lista",
+    "Resolver dudas",
+    "Explicación teórica",
+    "Tiempo para práctica",
+    "Cierre de clase"
+];
+
+let currentPhaseIndex = 0;
+let classNavVisible = false;
+let isPhaseOverlayActive = false;
+let phaseTimings = classPhases.map(() => 0); // ms acumulados por fase
+let phaseCurrentStart = null; // cuándo empezó el temporizador de la fase actual
+let classRoutineStarted = false; // si la rutina ya se ha iniciado
+
+function toggleClassRoutineNav(event) {
+    event.stopPropagation();
+    classNavVisible = !classNavVisible;
+    document.getElementById('class-routine-nav').style.display = classNavVisible ? 'flex' : 'none';
+
+    // Iniciar temporizador de la fase 0 en la primera interacción
+    if (!classRoutineStarted && classNavVisible) {
+        classRoutineStarted = true;
+        phaseCurrentStart = Date.now();
+    }
+}
+
+function switchToPhase(newIndex) {
+    // Registrar tiempo de la fase actual
+    if (phaseCurrentStart !== null) {
+        phaseTimings[currentPhaseIndex] += Date.now() - phaseCurrentStart;
+    }
+    // Cambiar a la nueva fase e iniciar su temporizador
+    currentPhaseIndex = newIndex;
+    phaseCurrentStart = Date.now();
+}
+
+function goToNextPhase(event) {
+    event.stopPropagation();
+    const newIndex = Math.min(currentPhaseIndex + 1, classPhases.length - 1);
+    switchToPhase(newIndex);
+    showPhaseOverlay();
+    hideClassNav();
+}
+
+function goToPrevPhase(event) {
+    event.stopPropagation();
+    const newIndex = Math.max(currentPhaseIndex - 1, 0);
+    switchToPhase(newIndex);
+    showPhaseOverlay();
+    hideClassNav();
+}
+
+function showPhaseOverlay() {
+    const overlay = document.getElementById('phase-overlay');
+    const titleEl = document.getElementById('phase-title');
+    const progressEl = document.getElementById('phase-progress');
+    const downloadSection = document.getElementById('phase-download-section');
+
+    titleEl.textContent = classPhases[currentPhaseIndex];
+    progressEl.textContent = `Fase ${currentPhaseIndex + 1} de ${classPhases.length}`;
+    downloadSection.style.display = (currentPhaseIndex === classPhases.length - 1) ? 'block' : 'none';
+
+    overlay.style.display = 'flex';
+    isPhaseOverlayActive = true;
+}
+
+function hidePhaseOverlay() {
+    document.getElementById('phase-overlay').style.display = 'none';
+    isPhaseOverlayActive = false;
+}
+
+function hideClassNav() {
+    classNavVisible = false;
+    document.getElementById('class-routine-nav').style.display = 'none';
+}
+
+// Clic en el overlay para cerrarlo (excepto en la sección de descarga)
+document.getElementById('phase-overlay').addEventListener('click', function(event) {
+    const sessionsModal = document.getElementById('sessions-modal');
+    if (sessionsModal.style.display !== 'none') return;
+
+    const downloadSection = document.getElementById('phase-download-section');
+    if (downloadSection.contains(event.target)) return;
+
+    hidePhaseOverlay();
+});
+
+// Cualquier tecla cierra el overlay (si no hay modal de sesiones abierto)
+document.addEventListener('keydown', function(event) {
+    if (isPhaseOverlayActive) {
+        const sessionsModal = document.getElementById('sessions-modal');
+        if (!sessionsModal || sessionsModal.style.display === 'none') {
+            hidePhaseOverlay();
+            event.preventDefault();
+        }
+    }
+});
+
+// Modal de sesiones
+function showSessionsModal() {
+    document.getElementById('sessions-modal').style.display = 'flex';
+}
+
+function hideSessionsModal() {
+    document.getElementById('sessions-modal').style.display = 'none';
+}
+
+function downloadClassStats(numSessions) {
+    hideSessionsModal();
+
+    // Registrar el tiempo final de la fase actual antes de generar el informe
+    if (phaseCurrentStart !== null) {
+        phaseTimings[currentPhaseIndex] += Date.now() - phaseCurrentStart;
+        phaseCurrentStart = Date.now(); // reiniciar para evitar doble conteo si se descarga varias veces
+    }
+
+    const totalSessionMs = numSessions * 55 * 60 * 1000;
+    const now = new Date();
+    const dateString = now.toLocaleDateString('es-ES', {
+        weekday: 'long',
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric'
+    });
+
+    let content = `ESTADÍSTICAS DE CLASE\n`;
+    content += `Fecha: ${dateString.charAt(0).toUpperCase() + dateString.slice(1)}\n`;
+    content += `Sesiones: ${numSessions} (${numSessions * 55} minutos totales)\n`;
+    content += `Generado: ${now.toLocaleTimeString('es-ES')}\n`;
+    content += `${'='.repeat(60)}\n\n`;
+
+    classPhases.forEach((phase, index) => {
+        const ms = phaseTimings[index];
+        const minutes = Math.floor(ms / 60000);
+        const seconds = Math.floor((ms % 60000) / 1000);
+        const percentage = totalSessionMs > 0 ? ((ms / totalSessionMs) * 100).toFixed(1) : '0.0';
+
+        content += `${phase}:\n`;
+        content += `  Tiempo: ${minutes}m ${String(seconds).padStart(2, '0')}s\n`;
+        content += `  Porcentaje de la sesión: ${percentage}%\n\n`;
+    });
+
+    const totalTrackedMs = phaseTimings.reduce((a, b) => a + b, 0);
+    const totalMin = Math.floor(totalTrackedMs / 60000);
+    const totalSec = Math.floor((totalTrackedMs % 60000) / 1000);
+    content += `${'='.repeat(60)}\n`;
+    content += `Tiempo total registrado: ${totalMin}m ${String(totalSec).padStart(2, '0')}s\n`;
+    content += `Tiempo total de la sesión: ${numSessions * 55}m\n`;
+
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const filename = `${year}${month}${day}-estadisticas-clase.txt`;
+
+    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+document.getElementById('phase-download-btn').addEventListener('click', function(event) {
+    event.stopPropagation();
+    showSessionsModal();
+});
+
+document.getElementById('sessions-cancel-btn').addEventListener('click', hideSessionsModal);
+
+document.querySelectorAll('.session-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        const numSessions = parseInt(this.getAttribute('data-sessions'));
+        downloadClassStats(numSessions);
+    });
+});
+
+document.getElementById('sessions-modal').addEventListener('click', function(event) {
+    if (event.target === this) {
+        hideSessionsModal();
+    }
+});
