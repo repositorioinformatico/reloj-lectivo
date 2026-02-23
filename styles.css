@@ -964,7 +964,7 @@ body.status-no-lectivo {
 }
 
 #phase-title {
-    font-size: clamp(5rem, 18vw, 22rem);
+    font-size: clamp(3.75rem, 13.5vw, 16.5rem);
     font-weight: 700;
     color: #111111;
     margin: 0 0 0.4em;
@@ -973,7 +973,7 @@ body.status-no-lectivo {
 }
 
 #phase-progress {
-    font-size: clamp(1.2rem, 3vw, 3rem);
+    font-size: clamp(0.9rem, 2.25vw, 2.25rem);
     letter-spacing: 0.05em;
     text-transform: uppercase;
     color: #555555;

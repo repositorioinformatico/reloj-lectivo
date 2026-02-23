@@ -982,7 +982,7 @@ document.getElementById('custom-minute-input').addEventListener('keypress', func
 // ===== RUTINA DE CLASE =====
 
 const classPhases = [
-    "Pasar lista",
+    "Rutinas de inicio de clase",
     "Resolver dudas",
     "Explicación teórica",
     "Tiempo para práctica",
